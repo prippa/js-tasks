@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Задание 2</title>
+</head>
+<body>
+
+<h1>Задание 2</h1>
+
+<label for="my-input">Веедите положительное число</label>
+<input type="text" id="my-input"> -> <span id="result"></span>
+
+</body>
+</html>
+
+<script type="text/javascript">
+    (function () {
+        function reverseNumber(num) {
+            num = +num;
+            if (isNaN(num) || num < 0) {
+                return 0;
+            }
+
+            let result = 0;
+
+            while (num) {
+                result = (result * 10) + (num % 10);
+                num = Math.floor(num / 10);
+            }
+
+            return result;
+        }
+
+        const myInput = document.getElementById('my-input');
+        const result = document.getElementById('result');
+
+        myInput.oninput = () => {
+            result.innerHTML = reverseNumber(myInput.value).toString();
+        };
+    })();
+</script>

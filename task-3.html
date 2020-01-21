@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Задание 3</title>
+
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        .pointer {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+
+    <h1>Задание 3</h1>
+
+    <label for="search">Поиск:</label>
+    <input id="search" type="text" v-model="search">
+    <br><br>
+
+    <table>
+        <thead>
+            <tr>
+                <th class="pointer" v-for="(value, key) in columns" @click="sortByField(key)">
+                    {{value}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="user in searchUsers">
+                <td v-for="(v, key) in columns">
+                    {{user[key]}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script type="text/javascript">
+    let app = new Vue({
+        el: '#app',
+        data: {
+            columns: {number: '№', name: 'Name', email: 'E-mail', age: 'Age'},
+            sortStatus: {number: false, name: false, email: false, age: false},
+            users: [
+                { number: '1', name: 'Airi Satou', email: 'airisatou@gmail.com', age: '33' },
+                { number: '2', name: 'Angelica Ramos', email: 'angelicaramos@gmail.com', age: '47' },
+                { number: '3', name: 'Ashton Cox', email: 'ashtoncox@mail.ru', age: '66' },
+                { number: '4', name: 'Bradley Greer', email: 'bradleygreer@gmail.com', age: '41' },
+                { number: '5', name: 'Brenden Wagner', email: 'brendenwagner@ukr.net', age: '28' }
+            ],
+            search: ''
+        },
+        methods: {
+            sortByField(field) {
+                if (this.sortStatus[field]) {
+                    this.users.sort((a, b) => a[field] > b[field] ? 1 : -1);
+                } else {
+                    this.users.sort((a, b) => a[field] < b[field] ? 1 : -1);
+                }
+                this.sortStatus[field] = !this.sortStatus[field];
+            },
+            strStr(haystack, needle) {
+                haystack = haystack.toLowerCase();
+                needle = needle.toLowerCase();
+
+                return haystack.indexOf(needle) > -1;
+            }
+        },
+        computed: {
+            searchUsers() {
+                return this.users.filter(user => {
+                    for (const field in user) {
+                        if (this.strStr(user[field], this.search)) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                });
+            }
+        }
+    });
+</script>
